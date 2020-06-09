@@ -1,0 +1,19 @@
+.sidedrawyer{
+    position: absolute;
+    height: 40%;
+    top:50%;
+    left:100%;
+    transform: translate(-100%,-50%);
+    width: 10%;
+}
+
+.menuselector{
+    display: none;
+    transition: ease 1s;
+}
+
+.mentog{
+    height: 100%;
+    width: 100%;
+    background-color: none;
+}
