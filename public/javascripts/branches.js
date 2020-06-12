@@ -75,24 +75,29 @@ window.onload = function() {
         }
     ); */
 
-$("#subloc").click(function(){
-    var servertype = 'dev';
-    var loc = $('#branch').val();
-    var url;
-    if(servertype == 'prod'){
-        url='192.168.1.17:3000'
-    }
-    else{
-        url='localhost:3000'
-    }
-    window.location.href = `https://${url}/singleloc?location=${loc}`;
-});
+    $("#subloc").click(function(){
+        var servertype = 'dev';
+        var loc = $('#branch').val();
+        var url;
+        if(servertype == 'prod'){
+            url='192.168.1.17:3000'
+        }
+        else{
+            url='localhost:3000'
+        }
+        window.location.href = `https://${url}/singleloc?location=${loc}`;
+    });
 
-$("#cardloc").click(function(){
-    var url="https://lcus1storage.azureedge.net/web/v3/images/global/US_BC_Static.png?v=0x8D6E559E6A5C322";
-    $.get(`https://localhost:3000/card/data?url=${url}`, function(data, status){
-        $('<p>'+data.data+'</p>').appendTo('.text');
-      });
-});
+    var myCanvas = document.querySelector("#canvas").toDataURL('image/png');
+
+    $("#cardloc").click(function(){
+        this.href = $('#canvas')[0].toDataURL();// Change here
+        this.download = 'design.png';
+        var url="https://lcus1storage.azureedge.net/web/v3/images/global/US_BC_Static.png?v=0x8D6E559E6A5C322";
+        $.get(`https://localhost:3000/card/data?url=${url}`, function(data, status){
+            $('.loader').css({'display':'none'})
+            $('<p>'+data.data+'</p>').appendTo('.text');
+        });
+    });
 
 };

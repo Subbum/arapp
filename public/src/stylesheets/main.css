@@ -1,15 +1,15 @@
 .sidedrawyer{
     position: absolute;
-    height: 40%;
+    height: 50vh;
     top:50%;
-    left:100%;
-    transform: translate(-100%,-50%);
-    width: 10%;
+    left:0;
+    width: 30%;
+    color: white;
 }
 
 .menuselector{
-    display: none;
     transition: ease 1s;
+    background: rgba(0, 0, 0, 0.548);
 }
 
 .mentog{

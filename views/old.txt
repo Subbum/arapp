@@ -1,0 +1,62 @@
+Stream video via webcam
+        <div class="video-wrap">
+            <video id="video" playsinline autoplay></video>
+        </div>
+
+        <!-- Trigger canvas web API -->
+        <div class="controller">
+            <button id="snap">Capture</button>
+        </div>
+
+        <!-- Webcam video snapshot -->
+        <canvas id="canvas" width="340" height="180"></canvas>
+        <script>
+            'use strict';
+    
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const snap = document.getElementById("snap");
+            const errorMsgElement = document.querySelector('span#errorMsg');
+            
+            const constraints = {
+            audio: false,
+            video: {
+                width: 340, height: 180
+            }
+            };
+            
+            // Access webcam
+            async function init() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                handleSuccess(stream);
+            } catch (e) {
+                errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
+            }
+            }
+            
+            // Success
+            function handleSuccess(stream) {
+            window.stream = stream;
+            video.srcObject = stream;
+            }
+            
+            // Load init
+            init();
+            
+            // Draw image
+            var context = canvas.getContext('2d');
+            snap.addEventListener("click", function() {
+                context.drawImage(video, 0, 0, 340, 180);
+            });
+            // const myCanvas = document.querySelector("#canvas");
+            // const dataURI = myCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            // window.location.href=dataURI;
+        </script>
+        <button id="cardloc">Show card data</button>
+        <div class="text">
+            <span class="loader">Loading...</span>
+        </div>
+        <div class="cardform">
+
+        </div>
