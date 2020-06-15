@@ -30,7 +30,7 @@ a-scene{
     transition: ease 1s;
     flex-direction: column;
     text-align: center;
-    background-color: #0000006b;
+    /* background-color: #0000006b; */
     color: white;
 }
 
@@ -84,5 +84,10 @@ div.debug {
     background-color: white;
     font-size: 1.5em;
     border-radius: 5px;
+}
+
+#movement{
+    font-size:10px;
+    line-height: 1em;
 }
 

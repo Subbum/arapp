@@ -55,12 +55,21 @@ window.onload = function() {
 
     navigator.geolocation.getCurrentPosition(position => {
         window.perposition = position;
+        L.mapquest.key = 'lYrP4vF3Uk5zgTiGGuEzQGwGIVDGuy24';
+
+        var map = L.mapquest.map('map', {
+          center: [position.coords.latitude, position.coords.longitude],
+          layers: L.mapquest.tileLayer('map'),
+          zoom: 13
+        });
+
         loadPlaces(position.coords)
             .then((places) => {
                 places.forEach((place) => {
                     // console.log(place)
                     const latitude = place.location.lat;
                     const longitude = place.location.lng;
+                    
                     // add place name
                     // if((place.name).toString().includes('Nahar')){ //Testing to get certain locations
                         const text = document.createElement('a-link');
@@ -119,7 +128,25 @@ window.onload = function() {
         }
     ); */
 
-
+    var camera = dirscene.querySelector('#dircam');
+    var pos = camera.getAttribute('position');
+    if(camera.rotation){
+        alert(camera.rotation);
+    }
+    AFRAME.registerComponent('rotation-reader', {
+        tick: function () {
+          // `this.el` is the element.
+          // `object3D` is the three.js object.
+      
+          // `rotation` is a three.js Euler using radians. `quaternion` also available.
+          
+      
+          // `position` is a three.js Vector3.
+          console.log(this.el.object3D.position);
+        }
+      });
+    
+      
 
 };
 
@@ -165,6 +192,10 @@ function loadDirectionFromAPIs(position) {
     &to=${locate}
     &ambiguities=ignore
     `
+    L.mapquest.directions().route({
+        start: `${position.latitude}, ${position.longitude}`,
+        end: `${locate}`
+    });
     console.log(endpoint)
     return fetch(endpoint)
         .then((res) => {
@@ -196,53 +227,40 @@ function func1() {
         loadDirections(perposition.coords)
             .then((places) => {
                 var val = places[0].direction
+                var dirscene = document.querySelector('#dirscene')
+                var arrow = dirscene.querySelector('#dirar');
+                alert(val)
                 document.getElementById('movement').innerHTML = `${places[0].narrative} for ${places[0].distance * 1609} meters`
                 // console.log(val);
                 if(val == '6'){
                     // console.log('hello')
-                    $('#arrow').css({
-                        'transform': "rotate(45deg)",
-                    });
+                    arrow.setAttribute('rotation', {x: 0, y: 45, z: 0})
                 }
                 else if(val == '1'){
-                    $('#arrow').css({
-                        'transform': "rotate(-90deg)",
-                    }); 
+                    arrow.setAttribute('rotation', {x: 0, y: 180, z: 0})
                 }
                 else if(val == '2'){
-                    $('#arrow').css({
-                        'transform': "rotate(225deg)",
-                    }); 
+                    arrow.setAttribute('rotation', {x: 0, y: -45, z: 0})
+                    console.log(arrow)
                 }
                 else if(val == '3'){
-                    $('#arrow').css({
-                        'transform': "rotate(-45deg)",
-                    }); 
+                    arrow.setAttribute('rotation', {x: 0, y: 45, z: 0})
                 }
                 else if(val == '4'){
-                    $('#arrow').css({
-                        'transform': "rotate(90deg)",
-                    }); 
+                    arrow.setAttribute('rotation', {x: 0, y: 0, z: 0})
                 }
                 else if(val == '5'){
-                    $('#arrow').css({
-                        'transform': "rotate(135deg)",
-                    }); 
+                    arrow.setAttribute('rotation', {x: 0, y: 135, z: 0})
+                    console.log(arrow)
                 }
                 else if(val == '6'){
-                    $('#arrow').css({
-                        'transform': "rotate(45deg)",
-                    }); 
+                    arrow.setAttribute('rotation', {x: 0, y: -135, z: 0})
                 }
                 else if(val == '7'){
-                    $('#arrow').css({
-                        'transform': "rotate(180deg)",
-                    }); 
+                    arrow.setAttribute('rotation', {x: 0, y: -90, z: 0})
                 }
                 else if(val == '8'){
-                    $('#arrow').css({
-                        'transform': "rotate(0deg)",
-                    }); 
+                    arrow.setAttribute('rotation', {x: 0, y: 90, z: 0})
                 }
 
                 // places.forEach((place) => {
@@ -262,3 +280,10 @@ function func1() {
     
 
 };
+
+function getCameraPosition(){
+    var camera = dirscene.querySelector('#dircam');
+    var pos = camera.getAttribute('position');
+    var arrow = dirscene.querySelector('#dirar');
+    arrow.setAttribute('position', {x:(pos.x),y:(pos.y-10),z:(pos.z+10)});
+}

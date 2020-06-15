@@ -52,16 +52,16 @@ router.get('/card/details', (req,res,next) => {
       name: 'Jane Doe',
       cno: '1234567890',
       ano: '12121211',
-      transactions: `
+      transactions: [`
       Date: 11/06/2020
       Amount Paid: Rs 20000
-
+      `,`
       Date: 5/06/2020
       Amount Paid: Rs 200
-
+      `,`
       Date: 1/06/2020
       Amount Recieved: Rs 10000
-      `
+      `]
     })
   }
   else{

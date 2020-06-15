@@ -12,6 +12,22 @@
     <script>
         THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
     </script>
+    <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
+
+        <script type="text/javascript">
+        window.onload = function() {
+            L.mapquest.key = 'WUmToqAIQzGL8hUkV3vYeWAVYnMmImrk';
+
+            var map = L.mapquest.map('map', {
+            center: [37.7749, -122.4194],
+            layers: L.mapquest.tileLayer('map'),
+            zoom: 12
+            });
+
+            map.addControl(L.mapquest.control());
+        }
+        </script>
 </head>
 
 <link rel="stylesheet" href="../src/stylesheets/index.css">
@@ -31,25 +47,35 @@
             arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
         
             
-            <a-assets>
-                <img id="my-image" src="../src/map-marker.png">
-            </a-assets>
             <a-camera gps-camera="minDistance: 40;" rotation-reader>
             </a-camera>
+            
         </a-scene>
     </div>
     <div class="direction">
-        <img id="arrow" src="../src/arrow.png" alt="" srcset="">
-        <span id="movement"></span>
-        <!-- <a-scene vr-mode-ui="enabled: false">
-            <a-entity arrow position="0 1.6 -3"></a-entity>
-        </a-scene> -->
+        <!-- <img id="arrow" src="../src/arrow.png" alt="" srcset="">
+        <span id="movement"></span> -->
+        <a-scene id="dirscene" transparent:'true'
+        vr-mode-ui="enabled: false"
+        embedded
+        arjs='sourceWidth:1280; sourceHeight:960; debugUIEnabled: false;'>
+            <a-assets>
+                <a-asset-item id="arrowobj" src="/../models/arrow.obj"></a-asset-item>
+                <a-asset-item id="arrowmat" src="/../models/arrow.mtl"></a-asset-item>
+            </a-assets>
+            <a-camera position="0 0 0" id="dircam">
+                <a-cursor color="#FF0000"></a-cursor>
+                <a-obj-model id="dirar" src="#arrowobj" mtl="#arrowmat" position="0 -10 -10" rotation="0 180 0"></a-obj-model>
+                <span id="movement"></span>
+            </a-camera>
+        </a-scene>
     </div>
     <div class="selector">
         <select name="location" id="location">
             <option value="1">Select Location</option>
         </select>
         <button id="sellocation" onclick="func1()">Submit Location</button>
+        <div id="map" style="width: 100%; height: 230px;"></div>
     </div>
     <div class="sidedrawyer">
         <div class="menuselector">
